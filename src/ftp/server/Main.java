@@ -11,9 +11,10 @@ public class Main {
 
 	public static void main(String [] args) {
 		try {
+			System.out.printf("current pid: %d\n", Thread.currentThread().getId());
 			Server server = new Server("localhost", PrivilegedPorNum + 21);
 			server.start();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
