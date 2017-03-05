@@ -11,6 +11,7 @@ public class ControlConnection extends Thread {
 	private Socket connection;
 	private BufferedReader reader;
 	private PrintWriter writer;
+	private boolean running = true;
 	
 	public ControlConnection(Socket connection) throws IOException, InterruptedException {
 		this.connection = connection;
@@ -21,9 +22,8 @@ public class ControlConnection extends Thread {
 	}
 	
 	public void run() {
-		exitThread: 
 		try {
-			while(!Thread.currentThread().isInterrupted()) {
+			while(!Thread.currentThread().isInterrupted() && running) {
 				String command = reader.readLine();
 				switch(command) {
 					case "hello":
@@ -36,7 +36,8 @@ public class ControlConnection extends Thread {
 						writer.println("close connection");
 						writer.flush();
 						connection.close();
-					break exitThread;
+						running = false;
+					break;
 				}
 			}
 		} catch (IOException e) {
