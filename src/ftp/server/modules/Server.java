@@ -27,11 +27,9 @@ public class Server {
 	}
 	
 	private void controlConnectionLoop() throws UnknownHostException, IOException, InterruptedException {
-		ExecutorService pool = Executors.newFixedThreadPool(100);
 		while (!Thread.currentThread().isInterrupted()) {
-			pool.submit(new ControlConnection(listener.accept()));
+			new ControlConnection(listener.accept()).start();
 		}
-		pool.shutdown();
 	}
 	
 	public void start() throws UnknownHostException, IOException, InterruptedException {
